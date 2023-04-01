@@ -9,29 +9,29 @@ public class Main {
         Manager manager = new Manager();
 
         Task task = new Task("Task1", "create first task", "NEW");
-        manager.setOneTask(task);
+        manager.createOneTask(task);
         task = new Task("Task2", "create second task", "DONE");
-        manager.setOneTask(task);
+        manager.createOneTask(task);
 
-        Epic epic = new Epic("Epic1", "create first epic", "NEW");
-        manager.setOneTask(epic);
+        Epic epic = new Epic("Epic1", "create first epic");
+        manager.createOneTask(epic);
         int epicId = manager.getEpicId(epic);
         SubTask subTask = new SubTask("Subtask1", "create first task", "DONE", epicId);
-        manager.setOneTask(subTask);
+        manager.createOneTask(subTask);
         subTask = new SubTask("Subtask2", "create second task", "IN_PROGRESS", epicId);
-        manager.setOneTask(subTask);
+        manager.createOneTask(subTask);
 
-        epic = new Epic("Epic2", "create second epic", "IN_PROGRESS");
-        manager.setOneTask(epic);
+        epic = new Epic("Epic2", "create second epic");
+        manager.createOneTask(epic);
         epicId = manager.getEpicId(epic);
         subTask = new SubTask("Subtask3", "create third epic", "NEW", epicId);
-        manager.setOneTask(subTask);
+        manager.createOneTask(subTask);
 
         printAllMaps(manager);
 
-        manager.updateOneTask(1,new Task("Task1.1", "recreate first task", "IN_PROGRESS"));
-        manager.updateOneTask(6, new Epic("Epic2.1", "recreate second epic", "DONE"));
-        manager.updateOneTask(5, new SubTask("Subtask2.1", "recreate second task", "DONE", 3));
+        manager.updateOneTask(new Task("Task1.1", "recreate first task", "IN_PROGRESS", 1));
+        manager.updateOneTask(new Epic("Epic2.1", "recreate second epic", 6));
+        manager.updateOneTask(new SubTask("Subtask2.1", "recreate second task", "DONE", 3, 5));
 
         printAllMaps(manager);
 
@@ -41,14 +41,16 @@ public class Main {
 
         printAllMaps(manager);
 
-        manager.clearAllMap();
+        manager.deleteAllTasks();
 
         printAllMaps(manager);
+
+        manager.deleteAllSubTasks();
     }
 
     public static void printAllMaps(Manager manager){
-        System.out.println(manager.getTaskMap());
-        System.out.println(manager.getEpicMap());
-        System.out.println(manager.getSubTaskMap() + "\n\n");
+        System.out.println(manager.getAllTasks());
+        System.out.println(manager.getAllEpics());
+        System.out.println(manager.getAllSubTasks() + "\n\n");
     }
 }
