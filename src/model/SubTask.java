@@ -5,12 +5,12 @@ import java.util.Objects;
 public class SubTask extends Task {
     private int epicId;
 
-    public SubTask(String name, String description, String status, int epicId) {
+    public SubTask(String name, String description, Status status, int epicId) {
         super(name, description, status);
         this.epicId = epicId;
     }
 
-    public SubTask(String name, String description, String status, int epicId, int id) {
+    public SubTask(String name, String description, Status status, int epicId, int id) {
         super(name, description, status, id);
         this.epicId = epicId;
     }
@@ -26,7 +26,7 @@ public class SubTask extends Task {
                 ", id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
+                ", status='" + status.name() + '\'' +
                 '}' + "\n";
     }
 

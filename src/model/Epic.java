@@ -7,12 +7,12 @@ public class Epic extends Task {
     private ArrayList<Integer> subTaskIdList;
 
     public Epic(String name, String description) {
-        super(name, description, "NEW");
+        super(name, description, Status.NEW);
         this.subTaskIdList = new ArrayList<>();
     }
 
     public Epic(String name, String description, int id) {
-        super(name, description, "NEW", id);
+        super(name, description, Status.NEW, id);
         this.subTaskIdList = new ArrayList<>();
     }
 
@@ -38,7 +38,7 @@ public class Epic extends Task {
                 ", id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
+                ", status='" + status.name() + '\'' +
                 ", subTaskId=" + subTaskIdList +
                 '}' + "\n";
     }

@@ -1,56 +1,69 @@
+import model.Status;
 import model.Task;
 import model.Epic;
 import model.SubTask;
-import service.Manager;
+import service.HistoryManager;
+import service.InMemoryTaskManager;
+import service.TaskManager;
+import service.Managers;
 
 public class Main {
 
     public static void main(String[] args) {
-        Manager manager = new Manager();
+        TaskManager inMemoryTaskManager = new Managers().getDefault();
 
-        Task task = new Task("Task1", "create first task", "NEW");
-        manager.createOneTask(task);
-        task = new Task("Task2", "create second task", "DONE");
-        manager.createOneTask(task);
+        Task task = new Task("Task1", "create first task", Status.NEW);
+        inMemoryTaskManager.createOneTask(task);
+        task = new Task("Task2", "create second task", Status.DONE);
+        inMemoryTaskManager.createOneTask(task);
+
+        inMemoryTaskManager.getTask(1);
+        System.out.println(inMemoryTaskManager.getHistory());
+        inMemoryTaskManager.getTask(2);
+        System.out.println(inMemoryTaskManager.getHistory());
 
         Epic epic = new Epic("Epic1", "create first epic");
-        manager.createOneTask(epic);
-        int epicId = manager.getEpicId(epic);
-        SubTask subTask = new SubTask("Subtask1", "create first task", "DONE", epicId);
-        manager.createOneTask(subTask);
-        subTask = new SubTask("Subtask2", "create second task", "IN_PROGRESS", epicId);
-        manager.createOneTask(subTask);
+        inMemoryTaskManager.createOneTask(epic);
+        int epicId = inMemoryTaskManager.getEpicId(epic);
+        SubTask subTask = new SubTask("Subtask1", "create first task", Status.DONE, epicId);
+        inMemoryTaskManager.createOneTask(subTask);
+        subTask = new SubTask("Subtask2", "create second task", Status.IN_PROGRESS, epicId);
+        inMemoryTaskManager.createOneTask(subTask);
 
         epic = new Epic("Epic2", "create second epic");
-        manager.createOneTask(epic);
-        epicId = manager.getEpicId(epic);
-        subTask = new SubTask("Subtask3", "create third epic", "NEW", epicId);
-        manager.createOneTask(subTask);
+        inMemoryTaskManager.createOneTask(epic);
+        epicId = inMemoryTaskManager.getEpicId(epic);
+        subTask = new SubTask("Subtask3", "create third epic", Status.NEW, epicId);
+        inMemoryTaskManager.createOneTask(subTask);
 
-        printAllMaps(manager);
+        printAllMaps(inMemoryTaskManager);
 
-        manager.updateOneTask(new Task("Task1.1", "recreate first task", "IN_PROGRESS", 1));
-        manager.updateOneTask(new Epic("Epic2.1", "recreate second epic", 6));
-        manager.updateOneTask(new SubTask("Subtask2.1", "recreate second task", "DONE", 3, 5));
+        inMemoryTaskManager.updateOneTask(new Task("Task1.1", "recreate first task", Status.IN_PROGRESS, 1));
+        inMemoryTaskManager.updateOneTask(new Epic("Epic2.1", "recreate second epic", 6));
+        inMemoryTaskManager.updateOneTask(new SubTask("Subtask2.1", "recreate second task", Status.DONE, 3, 5));
 
-        printAllMaps(manager);
+        printAllMaps(inMemoryTaskManager);
 
-        manager.deleteById(1);
-        manager.deleteById(3);
-        manager.deleteById(7);
+        System.out.println(inMemoryTaskManager.getHistory());
 
-        printAllMaps(manager);
+        inMemoryTaskManager.deleteById(1);
+        inMemoryTaskManager.deleteById(3);
+        inMemoryTaskManager.deleteById(7);
 
-        manager.deleteAllTasks();
+        printAllMaps(inMemoryTaskManager);
 
-        printAllMaps(manager);
+        inMemoryTaskManager.deleteAllTasks();
 
-        manager.deleteAllSubTasks();
+        printAllMaps(inMemoryTaskManager);
+
+        inMemoryTaskManager.deleteAllSubTasks();
+
+
     }
 
-    public static void printAllMaps(Manager manager){
-        System.out.println(manager.getAllTasks());
-        System.out.println(manager.getAllEpics());
-        System.out.println(manager.getAllSubTasks() + "\n\n");
+    public static void printAllMaps(TaskManager inMemoryTaskManager){
+        System.out.println(inMemoryTaskManager.getAllTasks());
+        System.out.println(inMemoryTaskManager.getAllEpics());
+        System.out.println(inMemoryTaskManager.getAllSubTasks() + "\n\n");
     }
 }
