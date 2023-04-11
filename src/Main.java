@@ -2,7 +2,6 @@ import model.Status;
 import model.Task;
 import model.Epic;
 import model.SubTask;
-import service.HistoryManager;
 import service.InMemoryTaskManager;
 import service.TaskManager;
 import service.Managers;
@@ -10,7 +9,7 @@ import service.Managers;
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager inMemoryTaskManager = new Managers().getDefault();
+        InMemoryTaskManager inMemoryTaskManager = (InMemoryTaskManager) new Managers().getDefault();
 
         Task task = new Task("Task1", "create first task", Status.NEW);
         inMemoryTaskManager.createOneTask(task);
@@ -30,11 +29,20 @@ public class Main {
         subTask = new SubTask("Subtask2", "create second task", Status.IN_PROGRESS, epicId);
         inMemoryTaskManager.createOneTask(subTask);
 
+        inMemoryTaskManager.getEpic(3);
+        System.out.println(inMemoryTaskManager.getHistory());
+
         epic = new Epic("Epic2", "create second epic");
         inMemoryTaskManager.createOneTask(epic);
         epicId = inMemoryTaskManager.getEpicId(epic);
         subTask = new SubTask("Subtask3", "create third epic", Status.NEW, epicId);
         inMemoryTaskManager.createOneTask(subTask);
+
+        inMemoryTaskManager.getEpic(6);
+        System.out.println(inMemoryTaskManager.getHistory());
+
+        inMemoryTaskManager.getSubTask(5);
+        System.out.println(inMemoryTaskManager.getHistory());
 
         printAllMaps(inMemoryTaskManager);
 
@@ -43,6 +51,9 @@ public class Main {
         inMemoryTaskManager.updateOneTask(new SubTask("Subtask2.1", "recreate second task", Status.DONE, 3, 5));
 
         printAllMaps(inMemoryTaskManager);
+
+        inMemoryTaskManager.getSubTask(5);
+        System.out.println(inMemoryTaskManager.getHistory());
 
         System.out.println(inMemoryTaskManager.getHistory());
 

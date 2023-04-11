@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class InMemoryHistoryManager implements HistoryManager{
 
-    private ArrayList<Task> tasksHistory = new ArrayList<>();
+    final private ArrayList<Task> tasksHistory = new ArrayList<>();
 
 
     @Override

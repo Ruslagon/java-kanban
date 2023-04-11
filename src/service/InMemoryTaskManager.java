@@ -1,5 +1,6 @@
 package service;
 
+
 import model.Epic;
 import model.SubTask;
 import model.Task;
@@ -11,39 +12,28 @@ import java.util.HashMap;
 
 public class InMemoryTaskManager implements TaskManager {
     private int freeId = 1;
-    private HashMap<Integer, Task> taskMap;
-    private HashMap<Integer, Epic> epicMap;
-    private HashMap<Integer, SubTask> subTaskMap;
-    private ArrayList<Task> tasksHistory;
+    final private HashMap<Integer, Task> taskMap;
+    final private HashMap<Integer, Epic> epicMap;
+    final private HashMap<Integer, SubTask> subTaskMap;
 
-    static HistoryManager historyManager = new Managers().getDefaultHistory();
+    final private HistoryManager historyManager = new Managers().getDefaultHistory();
 
     public InMemoryTaskManager() {
         taskMap = new HashMap<>();
         epicMap = new HashMap<>();
         subTaskMap = new HashMap<>();
-        tasksHistory = new ArrayList<>();
     }
 
     // HashMap сделаны с ключем индексом к задаче
     public HashMap<Integer, Task> getAllTasks() {
-        for (Task task : taskMap.values()) {
-            addToHistory(task);
-        }
         return taskMap;
     }
 
     public HashMap<Integer, Epic> getAllEpics() {
-        for (Epic epic : epicMap.values()) {
-            addToHistory(epic);
-        }
         return epicMap;
     }
 
     public HashMap<Integer, SubTask> getAllSubTasks() {
-        for (SubTask subTask : subTaskMap.values()) {
-            addToHistory(subTask);
-        }
         return subTaskMap;
     }
 
@@ -92,7 +82,6 @@ public class InMemoryTaskManager implements TaskManager {
         return subTaskMap.get(id);
     }
 
-    @Override
     public void createOneTask(Object someTask) {
         String classType = String.valueOf(someTask.getClass());
         switch (classType) {
@@ -137,7 +126,7 @@ public class InMemoryTaskManager implements TaskManager {
         freeId++;
     }
 
-    public void defineEpicStatus(int id) {
+    private void defineEpicStatus(int id) {
         boolean isSubTaskNew = false;
         boolean isSubTaskDone = false;
         boolean isSubTaskInProgress = false;
@@ -168,7 +157,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    @Override
     public void updateOneTask(Object someTask){
         String classType = String.valueOf(someTask.getClass());
         switch (classType) {
@@ -212,7 +200,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    @Override
     public void deleteById(int id) {
         deleteTaskById(id);
         deleteEpicById(id);
@@ -255,7 +242,6 @@ public class InMemoryTaskManager implements TaskManager {
         return subTasks;
     }
 
-    @Override
     public int getEpicId(Epic epicForCheck){
         for (Integer epicId: epicMap.keySet()) {
             if (epicForCheck.equals(epicMap.get(epicId))) {
@@ -269,7 +255,7 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
-    public static void addToHistory(Task task){
+    private void addToHistory(Task task){
         historyManager.add(task);
     }
 
