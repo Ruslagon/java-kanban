@@ -232,12 +232,12 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
+    @Override
     public ArrayList<SubTask> getEpicsSubTasks(Epic epic) {
         ArrayList<SubTask> subTasks = new ArrayList<>();
         int epicId = epic.getId();
         for (Integer subTaskId : epicMap.get(epicId).getSubTaskIdList()) {
             subTasks.add(subTaskMap.get(subTaskId));
-            addToHistory(subTaskMap.get(subTaskId));
         }
         return subTasks;
     }
@@ -251,6 +251,7 @@ public class InMemoryTaskManager implements TaskManager {
         return 0;
     }
 
+    @Override
     public ArrayList<Task> getHistory(){
         return historyManager.getHistory();
     }
