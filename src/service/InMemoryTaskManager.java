@@ -8,7 +8,7 @@ import model.Status;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private int freeId = 1;
@@ -252,12 +252,16 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Task> getHistory(){
+    public List<Task> getHistory(){
         return historyManager.getHistory();
     }
 
     private void addToHistory(Task task){
         historyManager.add(task);
+    }
+
+    public void removeFromHistory(int id){
+        historyManager.remove(id);
     }
 
 }

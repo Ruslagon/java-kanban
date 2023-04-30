@@ -28,6 +28,8 @@ public class Main {
         inMemoryTaskManager.createOneTask(subTask);
         subTask = new SubTask("Subtask2", "create second task", Status.IN_PROGRESS, epicId);
         inMemoryTaskManager.createOneTask(subTask);
+        subTask = new SubTask("Subtask3", "create 3 task", Status.DONE, epicId);
+        inMemoryTaskManager.createOneTask(subTask);
 
         inMemoryTaskManager.getEpic(3);
         System.out.println(inMemoryTaskManager.getHistory());
@@ -38,7 +40,8 @@ public class Main {
         subTask = new SubTask("Subtask3", "create third epic", Status.NEW, epicId);
         inMemoryTaskManager.createOneTask(subTask);
 
-        inMemoryTaskManager.getEpic(6);
+        printAllMaps(inMemoryTaskManager);
+        inMemoryTaskManager.getEpic(7);
         System.out.println(inMemoryTaskManager.getHistory());
 
         inMemoryTaskManager.getSubTask(5);
@@ -52,10 +55,22 @@ public class Main {
 
         printAllMaps(inMemoryTaskManager);
 
+        epic = new Epic("Epic3", "create 3 epic");
+        inMemoryTaskManager.createOneTask(epic);
+        epicId = inMemoryTaskManager.getEpicId(epic);
+        inMemoryTaskManager.getEpic(9);
+
         inMemoryTaskManager.getSubTask(5);
         System.out.println(inMemoryTaskManager.getHistory());
 
+        inMemoryTaskManager.removeFromHistory(1);
+        inMemoryTaskManager.removeFromHistory(3);
+        inMemoryTaskManager.removeFromHistory(4);
+        inMemoryTaskManager.removeFromHistory(5);
+        inMemoryTaskManager.removeFromHistory(6);
         System.out.println(inMemoryTaskManager.getHistory());
+
+        printAllMaps(inMemoryTaskManager);
 
         inMemoryTaskManager.deleteById(1);
         inMemoryTaskManager.deleteById(3);

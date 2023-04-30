@@ -6,6 +6,7 @@ import model.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public interface TaskManager {
 
@@ -39,5 +40,5 @@ public interface TaskManager {
     void deleteEpicById(int epicId);
     void deleteSubTaskById(Integer subTaskId);
 
-    ArrayList<Task> getHistory();
+    List<Task> getHistory();
 }
