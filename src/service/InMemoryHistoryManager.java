@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager{
-    final private HashMap<Integer, Node<Task>> idByViewedTasks = new HashMap<>();
+    private final  HashMap<Integer, Node<Task>> idByViewedTasks = new HashMap<>();
     CustomLinkedList customLinkedList = new CustomLinkedList();
 
 
@@ -19,12 +19,14 @@ public class InMemoryHistoryManager implements HistoryManager{
 
     @Override
     public void add(Task task){
-        int taskId = task.getId();
-        if (idByViewedTasks.containsKey(taskId)){
-            customLinkedList.removeNode(idByViewedTasks.get(taskId));
+        if (task != null) {
+            int taskId = task.getId();
+            if (idByViewedTasks.containsKey(taskId)) {
+                customLinkedList.removeNode(idByViewedTasks.get(taskId));
+            }
+            Node<Task> taskNode = customLinkedList.linkLast(task);
+            idByViewedTasks.put(taskId, taskNode);
         }
-        Node<Task> taskNode = customLinkedList.linkLast(task);
-        idByViewedTasks.put(taskId,taskNode);
     }
 
     @Override

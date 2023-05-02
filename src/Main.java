@@ -63,11 +63,8 @@ public class Main {
         inMemoryTaskManager.getSubTask(5);
         System.out.println(inMemoryTaskManager.getHistory());
 
-        inMemoryTaskManager.removeFromHistory(1);
-        inMemoryTaskManager.removeFromHistory(3);
-        inMemoryTaskManager.removeFromHistory(4);
-        inMemoryTaskManager.removeFromHistory(5);
-        inMemoryTaskManager.removeFromHistory(6);
+        inMemoryTaskManager.deleteById(9);
+        inMemoryTaskManager.deleteById(3);
         System.out.println(inMemoryTaskManager.getHistory());
 
         printAllMaps(inMemoryTaskManager);

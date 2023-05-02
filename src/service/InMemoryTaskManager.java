@@ -46,17 +46,30 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllSimpleTasks() {
+        for (Integer taskId : taskMap.keySet()) {
+            removeFromHistory(taskId);
+        }
         taskMap.clear();
     }
 
     @Override
     public void deleteAllEpicMap() {
+        for (Integer epicId : epicMap.keySet()) {
+            removeFromHistory(epicId);
+        }
         epicMap.clear();
+
+        for (Integer subTaskId : subTaskMap.keySet()) {
+            removeFromHistory(subTaskId);
+        }
         subTaskMap.clear();
     }
 
     @Override
     public void deleteAllSubTasks() {
+        for (Integer subTaskId : subTaskMap.keySet()) {
+            removeFromHistory(subTaskId);
+        }
         subTaskMap.clear();
         for (Integer epicId : epicMap.keySet()) {
             epicMap.get(epicId).setSubTaskIdList(new ArrayList<>());
@@ -209,6 +222,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteTaskById(int id){
+        if (taskMap.containsKey(id)) {
+            removeFromHistory(id);
+        }
         taskMap.remove(id);
     }
 
@@ -217,8 +233,10 @@ public class InMemoryTaskManager implements TaskManager {
         if (epicMap.containsKey(epicId)) {
             for (Integer subTaskId : epicMap.get(epicId).getSubTaskIdList()) {
                 subTaskMap.remove(subTaskId);
+                removeFromHistory(subTaskId);
             }
             epicMap.remove(epicId);
+            removeFromHistory(epicId);
         }
     }
 
@@ -229,6 +247,7 @@ public class InMemoryTaskManager implements TaskManager {
             epicMap.get(epicId).removeOneSubTask(subTaskId);
             subTaskMap.remove(subTaskId);
             defineEpicStatus(epicId);
+            removeFromHistory(subTaskId);
         }
     }
 
@@ -260,7 +279,7 @@ public class InMemoryTaskManager implements TaskManager {
         historyManager.add(task);
     }
 
-    public void removeFromHistory(int id){
+    private void removeFromHistory(int id){
         historyManager.remove(id);
     }
 

@@ -20,6 +20,11 @@ public class CustomLinkedList {
     }
 
     public void removeNode(Node<Task> node){
+
+        if (node == null) {
+            return;
+        }
+
         Node<Task> prev = node.prev;
         Node<Task> next = node.next;
 
@@ -29,8 +34,6 @@ public class CustomLinkedList {
         if (node.equals(tail)){
             tail = prev;
         }
-
-        node = null;
 
         if (prev != null) {
             prev.next = next;
