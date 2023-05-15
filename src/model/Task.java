@@ -47,6 +47,11 @@ public class Task {
                 '}' + "\n";
     }
 
+    public String toStringForFile(){
+        return String.join(",", Integer.toString(id), getClass().getSimpleName().toUpperCase(),
+                name, status.name(), description,"");
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

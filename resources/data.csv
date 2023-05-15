@@ -1,0 +1,10 @@
+id,type,name,status,description,epic
+1,TASK,Task1,NEW,create first task,
+2,TASK,Task2,DONE,create second task,
+3,EPIC,Epic1,DONE,create first epic,
+5,EPIC,Epic2,IN_PROGRESS,create 2 epic,
+4,SUBTASK,Subtask1,DONE,create first task,3
+6,SUBTASK,Subtask2,NEW,create 2 task,5
+7,SUBTASK,Subtask3,DONE,create 3 task,5
+
+3,4

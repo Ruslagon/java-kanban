@@ -36,5 +36,4 @@ public class InMemoryHistoryManager implements HistoryManager{
             idByViewedTasks.remove(id);
         }
     }
-
 }

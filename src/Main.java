@@ -2,6 +2,7 @@ import model.Status;
 import model.Task;
 import model.Epic;
 import model.SubTask;
+import service.FileBackedTasksManager;
 import service.InMemoryTaskManager;
 import service.TaskManager;
 import service.Managers;
@@ -81,8 +82,26 @@ public class Main {
 
         inMemoryTaskManager.deleteAllSubTasks();
 
+        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager();
+
+        task = new Task("Task1", "create first task", Status.NEW);
+        fileBackedTasksManager.createOneTask(task);
+        task = new Task("Task2", "create second task", Status.DONE);
+        fileBackedTasksManager.createOneTask(task);
+
+        epic = new Epic("Epic1", "create first epic");
+        fileBackedTasksManager.createOneTask(epic);
+        epicId = fileBackedTasksManager.getEpicId(epic);
+        subTask = new SubTask("Subtask1", "create first task", Status.DONE, epicId);
+        fileBackedTasksManager.createOneTask(subTask);
+
+        fileBackedTasksManager.getEpic(3);
+        fileBackedTasksManager.getSubTask(4);
+
 
     }
+
+
 
     public static void printAllMaps(TaskManager inMemoryTaskManager){
         System.out.println(inMemoryTaskManager.getAllTasks());

@@ -12,11 +12,11 @@ import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private int freeId = 1;
-    final private HashMap<Integer, Task> taskMap;
-    final private HashMap<Integer, Epic> epicMap;
-    final private HashMap<Integer, SubTask> subTaskMap;
+    final HashMap<Integer, Task> taskMap;
+    final HashMap<Integer, Epic> epicMap;
+    final HashMap<Integer, SubTask> subTaskMap;
 
-    final private HistoryManager historyManager = new Managers().getDefaultHistory();
+    final HistoryManager historyManager = Managers.getDefaultHistory();
 
     public InMemoryTaskManager() {
         taskMap = new HashMap<>();
@@ -139,7 +139,7 @@ public class InMemoryTaskManager implements TaskManager {
         freeId++;
     }
 
-    private void defineEpicStatus(int id) {
+    void defineEpicStatus(int id) {
         boolean isSubTaskNew = false;
         boolean isSubTaskDone = false;
         boolean isSubTaskInProgress = false;
@@ -275,7 +275,7 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
-    private void addToHistory(Task task){
+    void addToHistory(Task task){
         historyManager.add(task);
     }
 
