@@ -2,6 +2,9 @@ package model;
 
 import java.util.ArrayList;
 
+import static model.Tasks.EPIC;
+import static model.Tasks.TASK;
+
 public class Epic extends Task {
 
     private ArrayList<Integer> subTaskIdList;
@@ -30,6 +33,10 @@ public class Epic extends Task {
 
     public void setSubTaskIdList(ArrayList<Integer> subTaskIdList) {
         this.subTaskIdList = subTaskIdList;
+    }
+
+    public Tasks getType() {
+        return EPIC;
     }
 
     @Override

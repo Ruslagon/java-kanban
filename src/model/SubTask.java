@@ -2,6 +2,9 @@ package model;
 
 import java.util.Objects;
 
+import static model.Tasks.SUBTASK;
+import static model.Tasks.TASK;
+
 public class SubTask extends Task {
     private final int epicId;
 
@@ -33,6 +36,10 @@ public class SubTask extends Task {
     @Override
     public String toStringForFile(){
         return super.toStringForFile() + Integer.toString(epicId);
+    }
+
+    public Tasks getType() {
+        return SUBTASK ;
     }
 
     @Override

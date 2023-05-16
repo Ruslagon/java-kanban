@@ -2,6 +2,8 @@ package model;
 
 import java.util.Objects;
 
+import static model.Tasks.*;
+
 public class Task {
     protected String name;
     protected String description;
@@ -35,6 +37,10 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Tasks getType() {
+        return TASK ;
     }
 
     @Override

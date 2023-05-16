@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
-    private int freeId = 1;
+    int freeId = 1;
     final HashMap<Integer, Task> taskMap;
     final HashMap<Integer, Epic> epicMap;
     final HashMap<Integer, SubTask> subTaskMap;
