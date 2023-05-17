@@ -8,7 +8,6 @@ import model.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
@@ -24,25 +23,21 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private void save() {
         try (Writer writer = new FileWriter(file)) {
-            writer.write(decodeText("id,type,name,status,description,epic\n"));
+            writer.write("id,type,name,status,description,epic\n");
             for (Task task : taskMap.values()) {
-                writer.write(decodeText(task.toStringForFile() + "\n"));
+                writer.write(task.toStringForFile() + "\n");
             }
             for (Epic epic : epicMap.values()) {
-                writer.write(decodeText(epic.toStringForFile() + "\n"));
+                writer.write(epic.toStringForFile() + "\n");
             }
             for (SubTask subTask : subTaskMap.values()) {
-                writer.write(decodeText(subTask.toStringForFile() + "\n"));
+                writer.write(subTask.toStringForFile() + "\n");
             }
-            writer.write(decodeText("\n"));
-            writer.write(decodeText(historyToString(historyManager)));
+            writer.write("\n");
+            writer.write(historyToString(historyManager));
         } catch (IOException e) {
             throw new ManagerSaveException("Произошла ошибка во время записи файла.");
         }
-    }
-
-    private static String decodeText(String input) {
-        return new String(input.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
     }
 
     private Task fromString(String value) {
@@ -79,9 +74,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         try (BufferedReader reader = new BufferedReader(new FileReader(newFile))) {
             reader.readLine();
             while (reader.ready()) {
-                String line = decodeText(reader.readLine());
+                String line = reader.readLine();
                 if (line.equals("")) {
-                    line = decodeText(reader.readLine());
+                    line = reader.readLine();
                     for (Integer historyId : historyFromString(line)) {
                         newManager.addToHistory(newManager.getSomeTaskById(historyId));
                     }
@@ -89,7 +84,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     Task unknownTask = newManager.fromString(line);
                     Tasks taskType = unknownTask.getType();
                     if (newManager.freeId <= unknownTask.getId()){
-                        newManager.freeId = unknownTask.getId();
+                        newManager.freeId = unknownTask.getId() + 1;
                     }
                     if (Tasks.TASK.equals(taskType)) {
                         newManager.taskMap.put(unknownTask.getId(), unknownTask);
@@ -104,7 +99,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Произошла ошибка во время чтения файла.");
+            throw new ManagerSaveException("Произошла ошибка во время записи файла.");
         }
         return newManager;
     }
