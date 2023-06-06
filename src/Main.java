@@ -7,14 +7,17 @@ import service.InMemoryTaskManager;
 import service.TaskManager;
 import service.Managers;
 
+import java.util.Comparator;
+import java.util.TreeSet;
+
 public class Main {
 
     public static void main(String[] args) {
-        InMemoryTaskManager inMemoryTaskManager = (InMemoryTaskManager) new Managers().getDefault();
+        InMemoryTaskManager inMemoryTaskManager = (InMemoryTaskManager) Managers.getDefault();
 
         Task task = new Task("Task1", "create first task", Status.NEW);
         inMemoryTaskManager.createOneTask(task);
-        task = new Task("Task2", "create second task", Status.DONE);
+        task = new Task("Task2", "create second task", Status.DONE,"06.06.23 02:42",20);
         inMemoryTaskManager.createOneTask(task);
 
         inMemoryTaskManager.getTask(1);
@@ -27,9 +30,9 @@ public class Main {
         int epicId = inMemoryTaskManager.getEpicId(epic);
         SubTask subTask = new SubTask("Subtask1", "create first task", Status.DONE, epicId);
         inMemoryTaskManager.createOneTask(subTask);
-        subTask = new SubTask("Subtask2", "create second task", Status.IN_PROGRESS, epicId);
+        subTask = new SubTask("Subtask2", "create second task", Status.IN_PROGRESS, epicId,"07.06.23 02:52",20);
         inMemoryTaskManager.createOneTask(subTask);
-        subTask = new SubTask("Subtask3", "create 3 task", Status.DONE, epicId);
+        subTask = new SubTask("Subtask3", "create 3 task", Status.DONE, epicId,"08.06.23 02:42",20);
         inMemoryTaskManager.createOneTask(subTask);
 
         inMemoryTaskManager.getEpic(3);
@@ -50,9 +53,9 @@ public class Main {
 
         printAllMaps(inMemoryTaskManager);
 
-        inMemoryTaskManager.updateOneTask(new Task("Task1.1", "recreate first task", Status.IN_PROGRESS, 1));
+        inMemoryTaskManager.updateOneTask(new Task("Task1.1", "recreate first task", Status.IN_PROGRESS, 1,"05.06.23 02:42",20));
         inMemoryTaskManager.updateOneTask(new Epic("Epic2.1", "recreate second epic", 6));
-        inMemoryTaskManager.updateOneTask(new SubTask("Subtask2.1", "recreate second task", Status.DONE, 3, 5));
+        inMemoryTaskManager.updateOneTask(new SubTask("Subtask2.1", "recreate second task", Status.DONE, 3, 5, "07.06.23 02:42",20));
 
         printAllMaps(inMemoryTaskManager);
 
@@ -63,6 +66,8 @@ public class Main {
 
         inMemoryTaskManager.getSubTask(5);
         System.out.println(inMemoryTaskManager.getHistory());
+
+        System.out.println(inMemoryTaskManager.getTasksByPriority() + "asd");
 
         inMemoryTaskManager.deleteById(9);
         inMemoryTaskManager.deleteById(3);
@@ -98,7 +103,9 @@ public class Main {
         fileBackedTasksManager.getEpic(3);
         fileBackedTasksManager.getSubTask(4);
 
+        System.out.println(fileBackedTasksManager.getSubTask(10));
 
+        System.out.println(fileBackedTasksManager.getTasksByPriority() + "asd");
     }
 
 

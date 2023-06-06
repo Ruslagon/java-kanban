@@ -13,8 +13,18 @@ public class SubTask extends Task {
         this.epicId = epicId;
     }
 
+    public SubTask(String name, String description, Status status, int epicId, String startTime, long durationMinutes) {
+        super(name, description, status, startTime, durationMinutes);
+        this.epicId = epicId;
+    }
+
     public SubTask(String name, String description, Status status, int epicId, int id) {
         super(name, description, status, id);
+        this.epicId = epicId;
+    }
+
+    public SubTask(String name, String description, Status status, int epicId, int id, String startTime, long durationMinutes) {
+        super(name, description, status, id, startTime, durationMinutes);
         this.epicId = epicId;
     }
 
@@ -24,13 +34,27 @@ public class SubTask extends Task {
 
     @Override
     public String toString() {
-        return "SubTask{" +
+        String startTimeString;
+        if (startTime != null){
+            startTimeString = startTime.format(formatter);
+        } else {
+            startTimeString = "null";
+        }
+        String data = "SubTask{" +
                 "epicId=" + epicId +
-                ", id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", status='" + status.name() + '\'' +
-                '}' + "\n";
+                ", status=" + status +
+                ", id=" + id +
+                ", startTime=" + startTimeString +
+                ", duration=" + duration.toMinutes() +
+                ", endTime=";
+        if (getEndTime().isPresent()) {
+            data = data + getEndTime().get().format(formatter);
+        } else {
+            data = data + "null";
+        }
+        return data + '}' + "\n";
     }
 
     @Override
