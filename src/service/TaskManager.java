@@ -5,17 +5,15 @@ import model.SubTask;
 import model.Task;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.TreeSet;
 
 public interface TaskManager {
 
-    HashMap<Integer, Task> getAllTasks();
+    List<Task> getAllTasks();
 
-    HashMap<Integer, Epic> getAllEpics();
+    List<Epic> getAllEpics();
 
-    HashMap<Integer, SubTask> getAllSubTasks();
+    List<SubTask> getAllSubTasks();
 
     void deleteAllTasks();
     void deleteAllSimpleTasks();
@@ -43,5 +41,5 @@ public interface TaskManager {
 
     List<Task> getHistory();
 
-    public TreeSet<Task> getTasksByPriority();
+    public List<Task> getTasksByPriority();
 }

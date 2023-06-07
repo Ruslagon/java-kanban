@@ -53,7 +53,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         assertNotNull(savedTask, "Задача не найдена.");
         assertEquals(task1, savedTask, "Задачи не совпадают.");
 
-        final List<Task> tasks = new ArrayList<>(taskManager.getAllTasks().values());
+        final List<Task> tasks = taskManager.getAllTasks();
 
         assertNotNull(tasks, "Задачи на возвращаются.");
         assertEquals(1, tasks.size(), "Неверное количество задач.");
@@ -86,7 +86,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createTask(task2);//id2
         taskManager.createTask(task3);//id3
 
-        assertEquals(3,taskManager.getAllTasks().values().size(), "Task должно быть 3");
+        assertEquals(3,taskManager.getAllTasks().size(), "Task должно быть 3");
     }
 
     @Test
@@ -95,7 +95,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createEpic(epic2);//id2
         taskManager.createEpic(epic3);//id3
 
-        assertEquals(3,taskManager.getAllEpics().values().size(), "Epic должно быть 3");
+        assertEquals(3,taskManager.getAllEpics().size(), "Epic должно быть 3");
     }
 
     @Test
@@ -105,7 +105,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createSubTask(new SubTask("Subtask1", "create 1 epic", Status.NEW, 1));//id=2
         taskManager.createSubTask(new SubTask("Subtask2", "create 2 epic", Status.DONE, 1));//id=3
 
-        assertEquals(2,taskManager.getAllSubTasks().values().size(), "Subtask должно быть 2");
+        assertEquals(2,taskManager.getAllSubTasks().size(), "Subtask должно быть 2");
 
     }
 
@@ -120,9 +120,9 @@ abstract class TaskManagerTest<T extends TaskManager> {
 
         taskManager.deleteAllTasks();
 
-        assertEquals(0,taskManager.getAllTasks().values().size(), "все Task должны быть удалены");
-        assertEquals(0,taskManager.getAllEpics().values().size(), "все Task должны быть удалены");
-        assertEquals(0,taskManager.getAllSubTasks().values().size(), "все Task должны быть удалены");
+        assertEquals(0,taskManager.getAllTasks().size(), "все Task должны быть удалены");
+        assertEquals(0,taskManager.getAllEpics().size(), "все Task должны быть удалены");
+        assertEquals(0,taskManager.getAllSubTasks().size(), "все Task должны быть удалены");
     }
 
     @Test

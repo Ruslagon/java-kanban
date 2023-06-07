@@ -7,13 +7,13 @@ import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     int freeId = 1;
-    final HashMap<Integer, Task> taskMap;
-    final HashMap<Integer, Epic> epicMap;
-    final HashMap<Integer, SubTask> subTaskMap;
+    final Map<Integer, Task> taskMap;
+    final Map<Integer, Epic> epicMap;
+    final Map<Integer, SubTask> subTaskMap;
 
     final HistoryManager historyManager = Managers.getDefaultHistory();
 
-    final TreeSet<Task> tasksByPriority;
+    final NavigableSet<Task> tasksByPriority;
 
     final Comparator<Task> taskComparator = (Task o1, Task o2) -> {
         if (o1.getStartTime().isEmpty() && o2.getStartTime().isEmpty()) {
@@ -39,16 +39,28 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     // HashMap сделаны с ключом индексом к задаче
-    public HashMap<Integer, Task> getAllTasks() {
-        return taskMap;
+    public List<Task> getAllTasks() {
+        List<Task> tasks = new ArrayList<>();
+        if (!taskMap.isEmpty()){
+            tasks.addAll(taskMap.values());
+        }
+        return tasks;
     }
 
-    public HashMap<Integer, Epic> getAllEpics() {
-        return epicMap;
+    public List<Epic> getAllEpics() {
+        List<Epic> epics = new ArrayList<>();
+        if (!epicMap.isEmpty()){
+            epics.addAll(epicMap.values());
+        }
+        return epics;
     }
 
-    public HashMap<Integer, SubTask> getAllSubTasks() {
-        return subTaskMap;
+    public List<SubTask> getAllSubTasks() {
+        List<SubTask> subTasks = new ArrayList<>();
+        if (!subTaskMap.isEmpty()){
+            subTasks.addAll(subTaskMap.values());
+        }
+        return subTasks;
     }
 
     @Override
@@ -74,24 +86,24 @@ public class InMemoryTaskManager implements TaskManager {
         }
         epicMap.clear();
 
-        for (Integer subTaskId : subTaskMap.keySet()) {
-            removeFromHistory(subTaskId);
-            tasksByPriority.remove(subTaskMap.get(subTaskId));
+        for (SubTask subTask : subTaskMap.values()) {
+            removeFromHistory(subTask.getId());
+            tasksByPriority.remove(subTask);
         }
         subTaskMap.clear();
     }
 
     @Override
     public void deleteAllSubTasks() {
-        for (Integer subTaskId : subTaskMap.keySet()) {
-            removeFromHistory(subTaskId);
-            tasksByPriority.remove(subTaskMap.get(subTaskId));
+        for (SubTask subTask : subTaskMap.values()) {
+            removeFromHistory(subTask.getId());
+            tasksByPriority.remove(subTask);
         }
         subTaskMap.clear();
-        for (Integer epicId : epicMap.keySet()) {
-            epicMap.get(epicId).setSubTaskIdList(new ArrayList<>());
-            epicMap.get(epicId).clearTime();
-            defineEpicStatus(epicId);
+        for (Epic epic : epicMap.values()) {
+            epic.setSubTaskIdList(new ArrayList<>());
+            epic.clearTime();
+            defineEpicStatus(epic.getId());
         }
     }
 
@@ -318,7 +330,7 @@ public class InMemoryTaskManager implements TaskManager {
                     epicOfSubTask.clearTime();
                     epicOfSubTask.getSubTaskIdList().stream()
                             .map(subTaskMap::get)
-                            .peek(subTaskOfEpic -> defineEpicTime(subTaskOfEpic, epicOfSubTask));
+                            .forEach(subTaskOfEpic -> defineEpicTime(subTaskOfEpic, epicOfSubTask));
                 }
             } else {
                 tasksByPriority.add(oldSubTask);
@@ -337,8 +349,6 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteTaskById(int id){
         if (taskMap.containsKey(id)) {
             removeFromHistory(id);
-        }
-        if (taskMap.containsKey(id)) {
             tasksByPriority.remove(taskMap.get(id));
             taskMap.remove(id);
         }
@@ -367,7 +377,7 @@ public class InMemoryTaskManager implements TaskManager {
             epicMap.get(epicId).clearTime();
             epicMap.get(epicId).getSubTaskIdList().stream()
                     .map(subTaskMap::get)
-                    .peek(subTaskOfEpic -> defineEpicTime(subTaskOfEpic, epicMap.get(epicId)));
+                    .forEach(subTaskOfEpic -> defineEpicTime(subTaskOfEpic, epicMap.get(epicId)));
             removeFromHistory(subTaskId);
         }
     }
@@ -407,6 +417,9 @@ public class InMemoryTaskManager implements TaskManager {
         historyManager.remove(id);
     }
 
-    public TreeSet<Task> getTasksByPriority() {return tasksByPriority;}
+    public List<Task> getTasksByPriority() {
+        List<Task> list = new ArrayList<>(tasksByPriority);
+        return list;
+    }
 
 }

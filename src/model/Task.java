@@ -26,29 +26,6 @@ public class Task {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        String startTimeString;
-        if (startTime != null){
-            startTimeString = startTime.format(formatter);
-        } else {
-            startTimeString = "null";
-        }
-        String data = "Task{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", startTime=" + startTimeString +
-                ", duration=" + duration.toMinutes() +
-                ", endTime=";
-        if (getEndTime().isPresent()) {
-            data = data + getEndTime().get().format(formatter);
-        } else {
-            data = data + "null";
-        }
-        return data + '}' + "\n";
-    }
-
     public Task(String name, String description, Status status, String startTime, long durationMinutes) {
         this.name = name;
         this.description = description;
@@ -130,6 +107,29 @@ public class Task {
         } else {
             return Optional.ofNullable(startTime.plus(duration));
         }
+    }
+
+    @Override
+    public String toString() {
+        String startTimeString;
+        if (startTime != null){
+            startTimeString = startTime.format(formatter);
+        } else {
+            startTimeString = "null";
+        }
+        String data = "Task{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", startTime=" + startTimeString +
+                ", duration=" + duration.toMinutes() +
+                ", endTime=";
+        if (getEndTime().isPresent()) {
+            data = data + getEndTime().get().format(formatter);
+        } else {
+            data = data + "null";
+        }
+        return data + '}' + "\n";
     }
 
     public Optional<LocalDateTime> getStartTime() {return Optional.ofNullable(startTime);}

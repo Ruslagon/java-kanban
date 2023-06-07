@@ -34,9 +34,9 @@ class FileBackedTasksManagerTest extends TaskManagerTest {
     void loadFromFile() {
         taskManager = FileBackedTasksManager.loadFromFile(new File("resources" + File.separator + "emptyFile.csv"));
 
-        assertEquals(0,taskManager.getAllTasks().values().size(),"Файл должен быть пустым");
-        assertEquals(0,taskManager.getAllEpics().values().size(),"Файл должен быть пустым");
-        assertEquals(0,taskManager.getAllSubTasks().values().size(),"Файл должен быть пустым");
+        assertEquals(0,taskManager.getAllTasks().size(),"Файл должен быть пустым");
+        assertEquals(0,taskManager.getAllEpics().size(),"Файл должен быть пустым");
+        assertEquals(0,taskManager.getAllSubTasks().size(),"Файл должен быть пустым");
         assertEquals(0,taskManager.getHistory().size(),"Файл должен быть пустым");
 
         taskManager = FileBackedTasksManager.loadFromFile(new File("resources" + File.separator + "epicWithNoHistory.csv"));
