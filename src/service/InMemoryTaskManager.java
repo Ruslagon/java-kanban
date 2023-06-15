@@ -385,6 +385,20 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public ArrayList<SubTask> getEpicsSubTasks(Epic epic) {
         ArrayList<SubTask> subTasks = new ArrayList<>();
+        if ((epic == null) || (epic.getId() == null) || (epic.getId() == 0) || epic.getSubTaskIdList() == null) {
+            return subTasks;
+        }
+        int epicId = epic.getId();
+        for (Integer subTaskId : epicMap.get(epicId).getSubTaskIdList()) {
+            subTasks.add(subTaskMap.get(subTaskId));
+        }
+        return subTasks;
+    }
+
+    @Override
+    public ArrayList<SubTask> getEpicsSubTasks(int id) {
+        ArrayList<SubTask> subTasks = new ArrayList<>();
+        var epic = epicMap.get(id);
         if ((epic == null) || (epic.getId() == 0) || epic.getSubTaskIdList() == null) {
             return subTasks;
         }
@@ -418,7 +432,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public List<Task> getTasksByPriority() {
-        List<Task> list = new ArrayList<>(tasksByPriority);
+        List<Task> list = new ArrayList<>();
+        list.addAll(tasksByPriority);
         return list;
     }
 

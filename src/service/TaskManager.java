@@ -24,6 +24,7 @@ public interface TaskManager {
     Epic getEpic(int id);
     SubTask getSubTask(int id);
     ArrayList<SubTask> getEpicsSubTasks(Epic epic);
+    ArrayList<SubTask> getEpicsSubTasks(int id);
 
 
     void createTask(Task task);

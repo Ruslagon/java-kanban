@@ -1,18 +1,22 @@
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import model.Status;
 import model.Task;
 import model.Epic;
 import model.SubTask;
-import service.FileBackedTasksManager;
-import service.InMemoryTaskManager;
-import service.TaskManager;
-import service.Managers;
+import service.*;
 
+import java.io.IOException;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        new KVServer().start();
         InMemoryTaskManager inMemoryTaskManager = (InMemoryTaskManager) Managers.getDefault();
 
         Task task = new Task("Task1", "create first task", Status.NEW);
@@ -87,23 +91,28 @@ public class Main {
 
         inMemoryTaskManager.deleteAllSubTasks();
 
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager();
+        TaskManager fileBackedTasksManager = Managers.HttpTaskManager();
 
         task = new Task("Task1", "create first task", Status.NEW);
-        fileBackedTasksManager.createOneTask(task);
+
+        fileBackedTasksManager.createTask(task);
         task = new Task("Task2", "create second task", Status.DONE);
-        fileBackedTasksManager.createOneTask(task);
+        fileBackedTasksManager.createTask(task);
 
         epic = new Epic("Epic1", "create first epic");
-        fileBackedTasksManager.createOneTask(epic);
-        epicId = fileBackedTasksManager.getEpicId(epic);
+        fileBackedTasksManager.createEpic(epic);
+        epicId = 3;
         subTask = new SubTask("Subtask1", "create first task", Status.DONE, epicId);
-        fileBackedTasksManager.createOneTask(subTask);
+        fileBackedTasksManager.createSubTask(subTask);
 
         fileBackedTasksManager.getEpic(3);
         fileBackedTasksManager.getSubTask(4);
 
         System.out.println(fileBackedTasksManager.getSubTask(10));
+
+        System.out.println(fileBackedTasksManager.getTasksByPriority() + "asd");
+
+        fileBackedTasksManager = new HttpTaskManager();
 
         System.out.println(fileBackedTasksManager.getTasksByPriority() + "asd");
     }

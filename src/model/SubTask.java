@@ -28,7 +28,7 @@ public class SubTask extends Task {
         this.epicId = epicId;
     }
 
-    public int getEpicId() {
+    public Integer getEpicId() {
         return epicId;
     }
 
@@ -36,7 +36,7 @@ public class SubTask extends Task {
     public String toString() {
         String startTimeString;
         if (startTime != null){
-            startTimeString = startTime.format(formatter);
+            startTimeString = startTime.format(formatter());
         } else {
             startTimeString = "null";
         }
@@ -50,7 +50,7 @@ public class SubTask extends Task {
                 ", duration=" + duration.toMinutes() +
                 ", endTime=";
         if (getEndTime().isPresent()) {
-            data = data + getEndTime().get().format(formatter);
+            data = data + getEndTime().get().format(formatter());
         } else {
             data = data + "null";
         }

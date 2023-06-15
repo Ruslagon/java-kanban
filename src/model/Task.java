@@ -12,13 +12,12 @@ public class Task {
     protected String name;
     protected String description;
     protected Status status;
-    protected int id;
+    protected Integer id;
 
     protected LocalDateTime startTime;
 
     protected Duration duration = Duration.ofMinutes(0);
 
-    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm");
 
     public Task(String name, String description, Status status) {
         this.name = name;
@@ -30,7 +29,7 @@ public class Task {
         this.name = name;
         this.description = description;
         this.status = status;
-        this.startTime = LocalDateTime.parse(startTime, formatter);
+        this.startTime = LocalDateTime.parse(startTime, formatter());
         this.duration = Duration.ofMinutes(durationMinutes);
     }
 
@@ -46,11 +45,11 @@ public class Task {
         this.description = description;
         this.status = status;
         this.id = id;
-        this.startTime = LocalDateTime.parse(startTime, formatter);
+        this.startTime = LocalDateTime.parse(startTime, formatter());
         this.duration = Duration.ofMinutes(durationMinutes);
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -70,16 +69,44 @@ public class Task {
         return TASK ;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
     public String toStringForFile(){
         String startTimeString;
         String endTimeString;
         if (startTime != null){
-            startTimeString = startTime.format(formatter);
+            startTimeString = startTime.format(formatter());
         } else {
             startTimeString = "null";
         }
         if (getEndTime().isPresent()){
-            endTimeString = startTime.format(formatter);
+            endTimeString = startTime.format(formatter());
         } else {
             endTimeString = "null";
         }
@@ -113,7 +140,7 @@ public class Task {
     public String toString() {
         String startTimeString;
         if (startTime != null){
-            startTimeString = startTime.format(formatter);
+            startTimeString = startTime.format(formatter());
         } else {
             startTimeString = "null";
         }
@@ -121,11 +148,12 @@ public class Task {
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
+                ", status=" + status.name() +
                 ", startTime=" + startTimeString +
                 ", duration=" + duration.toMinutes() +
                 ", endTime=";
         if (getEndTime().isPresent()) {
-            data = data + getEndTime().get().format(formatter);
+            data = data + getEndTime().get().format(formatter());
         } else {
             data = data + "null";
         }
@@ -133,6 +161,10 @@ public class Task {
     }
 
     public Optional<LocalDateTime> getStartTime() {return Optional.ofNullable(startTime);}
+
+    public DateTimeFormatter formatter() {
+        return DateTimeFormatter.ofPattern("dd.MM.yy HH:mm");
+    }
 
     public Optional<Duration> getDuration() {
         return Optional.ofNullable(duration);

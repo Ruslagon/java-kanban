@@ -15,13 +15,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
+
+    File file = new File("resources" + File.separator + "data.csv");
     public FileBackedTasksManager() {
         super();
     }
 
-    File file = new File("resources" + File.separator + "data.csv");
-
-    private void save() {
+    void save() {
         try (Writer writer = new FileWriter(file)) {
             writer.write("id,type,name,status,description,startTime,duration,endTime,epic\n");
             for (Task task : taskMap.values()) {

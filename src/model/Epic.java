@@ -50,12 +50,12 @@ public class Epic extends Task {
         String startTimeString;
         String endTimeString;
         if (startTime != null){
-            startTimeString = startTime.format(formatter);
+            startTimeString = startTime.format(formatter());
         } else {
             startTimeString = "null";
         }
         if (getEndTime().isPresent()) {
-            endTimeString = getEndTime().get().format(formatter);
+            endTimeString = getEndTime().get().format(formatter());
         } else {
             endTimeString = "null";
         }

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import service.TaskManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
@@ -29,7 +30,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     void setTaskManager(T taskManagerForSet)
     {taskManager = taskManagerForSet;}
     @BeforeEach
-    void beforeEach() {
+    void beforeEach() throws IOException, InterruptedException {
         taskManager.deleteAllTasks();
         task1 = new Task("Test addNewTask", "Test addNewTask description", Status.NEW); //id = 1;
         task2 = new Task("Task2", "create second task", Status.DONE,"06.06.23 02:42",20);//id = 2
