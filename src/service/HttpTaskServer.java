@@ -29,7 +29,7 @@ public class HttpTaskServer {
 
     private final Gson gson;
 
-    FileBackedTasksManager fileBackedTaskManager;
+    private final FileBackedTasksManager fileBackedTaskManager;
     public HttpTaskServer() throws IOException {
         server = HttpServer.create(new InetSocketAddress("localhost", PORT), 0);
         fileBackedTaskManager = FileBackedTasksManager.loadFromFile(new File("resources" + File.separator + "HttpFileTaskManager.csv"));

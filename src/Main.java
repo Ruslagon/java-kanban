@@ -1,6 +1,3 @@
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import model.Status;
 import model.Task;
 import model.Epic;
@@ -8,10 +5,6 @@ import model.SubTask;
 import service.*;
 
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeSet;
 
 public class Main {
 
@@ -91,7 +84,7 @@ public class Main {
 
         inMemoryTaskManager.deleteAllSubTasks();
 
-        TaskManager fileBackedTasksManager = Managers.HttpTaskManager();
+        TaskManager fileBackedTasksManager = Managers.httpTaskManager();
 
         task = new Task("Task1", "create first task", Status.NEW);
 

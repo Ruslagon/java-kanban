@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class Managers {
-    public static TaskManager getDefault(){
-        return new InMemoryTaskManager();
+    public static TaskManager getDefault() throws IOException, InterruptedException {
+        return new HttpTaskManager();
     }
 
     public static HistoryManager getDefaultHistory(){
@@ -20,7 +20,7 @@ public class Managers {
         return FileBackedTasksManager.loadFromFile(file);
     }
 
-    public static TaskManager HttpTaskManager() throws IOException, InterruptedException {
+    public static TaskManager httpTaskManager() throws IOException, InterruptedException {
         return new HttpTaskManager();
     }
 }

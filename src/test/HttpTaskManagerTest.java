@@ -4,16 +4,13 @@ import model.Epic;
 import model.Status;
 import model.SubTask;
 import model.Task;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import service.FileBackedTasksManager;
 import service.KVServer;
 import service.Managers;
 import service.TaskManager;
 
-import java.io.File;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,7 +25,7 @@ class HttpTaskManagerTest extends TaskManagerTest {
     @BeforeEach
     void beforeEach() throws IOException, InterruptedException {
         try {
-            taskManager = Managers.HttpTaskManager();
+            taskManager = Managers.httpTaskManager();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -57,7 +54,7 @@ class HttpTaskManagerTest extends TaskManagerTest {
         taskManager.createSubTask(new SubTask("Task2", "create second task", Status.DONE,3,"20.06.23 02:42",20));
         TaskManager taskManager2;
         try {
-            taskManager2 = Managers.HttpTaskManager();
+            taskManager2 = Managers.httpTaskManager();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }

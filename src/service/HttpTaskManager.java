@@ -17,9 +17,9 @@ import java.net.URI;
 import java.util.stream.Collectors;
 
 public class HttpTaskManager extends FileBackedTasksManager {
-    URI irl;
-    KVTaskClient client;
-    Gson gson = new Gson();
+    private final URI irl;
+    private final KVTaskClient client;
+    private final Gson gson = new Gson();
     public HttpTaskManager() throws IOException, InterruptedException {
         irl = URI.create("http://localhost:8078/");
         client = new KVTaskClient(irl);
